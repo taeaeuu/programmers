@@ -15,10 +15,10 @@ class Solution {
             int x = 0;
             int y = 0;
 
-            x = Arrays.asList(friends).indexOf(friends[j]);
+            x = Arrays.asList(friends).indexOf(temp[0]);
             compare[x+1][0]++;
 
-            y = Arrays.asList(friends).indexOf(friends[j]);
+            y = Arrays.asList(friends).indexOf(temp[1]);
             compare[0][y+1]++;
 
             compare[x+1][y+1]++;
@@ -53,11 +53,16 @@ class Solution {
 
         //카운트
         int max = 0;
+        String max_Name = "";
 
+        int maxNum = 0;
         for(int i : tScore){
+            if(i > max) max_Name = friends[maxNum];
             max = Math.max(max, i);
+            maxNum++;
         }
 
+        System.out.println(max_Name);
         return max;
     }
 }
