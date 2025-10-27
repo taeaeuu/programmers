@@ -1,0 +1,31 @@
+import java.util.ArrayList;
+
+class Solution {
+    public int solution(int[][] board, int[] moves) {
+        int answer = 0;
+
+        //바구니 생성 (요소의 추가와 제거가 용이하게 하기 위해 ArrayList 사용)
+        ArrayList<Integer> basket = new ArrayList<>();
+        for(int i = 0; i < moves.length; i++){
+            //주어진 moves와 실제 인덱스 동기화
+            int index2 = moves[i]-1;
+            //크레인 작동 구현
+            for(int j = 0; j < board.length; j++){
+                if(board[j][index2] != 0){
+                    basket.add(board[j][index2]);
+                    board[j][index2] = 0;
+                    break;
+                }
+            }
+            //가장 위에 쌓인 두 인형 비교를 위한 인덱스 설정
+            int end_Index = basket.size()-1;
+            if(end_Index > 0 && basket.get(end_Index) == basket.get(end_Index-1)){
+                basket.remove(end_Index);
+                basket.remove(end_Index-1);
+                answer += 2;
+            }
+        }
+        
+        return answer;
+    }
+}
