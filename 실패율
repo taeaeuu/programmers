@@ -1,0 +1,54 @@
+import java.util.*;
+class Solution {
+    public int[] solution(int N, int[] stages) {
+        //도달한 사용자 수 = 해당 스테이지이거나 해당 스테이지보다 높은 사용자 수(스테이지<=)
+        //실패한 사용자 수 = 해당 스테이지인 사용자 수
+        //스테이지마다 실패율을 구하려면 중첩 반복문 사용해야함 (O(n2))
+        //1부터 N까지 맵에 key로 저장 후 실패율 double로 value에 저장
+        int[] answer = new int[N];
+        HashMap<Integer, Double> map = new HashMap<>();
+        for(int i = 1; i <= N+1; i++){
+            int pass = 0;
+            int fail = 0;
+            for(int j : stages){
+                if(j >= i){
+                    pass ++;
+                    if(j == i){
+                        fail ++;
+                    }
+                }
+            }
+            double failRate;
+            if(pass == 0){
+                failRate = 0;
+            }
+            else{
+                failRate = (double) fail/pass;
+            }
+            if(i == N+1){
+                break;
+            }
+            map.put(i, failRate);
+            answer[i-1] = i;
+        }
+        Integer[] list = Arrays.stream(answer).boxed().toArray(Integer[]::new);
+        Arrays.sort(list, new Comparator<Integer>(){
+            @Override
+            public int compare(Integer o1, Integer o2){
+                double double1 = map.get(o1);
+                double double2 = map.get(o2);
+                if(double1 == double2){
+                    return Integer.compare(o1, o2);
+                }
+                else{
+                    return Double.compare(double2, double1);
+                }
+            }
+        });
+        for(int i = 0; i < list.length; i++){
+            answer[i] = list[i];
+        }
+        
+        return answer;
+    }
+}
