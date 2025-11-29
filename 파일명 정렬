@@ -1,0 +1,58 @@
+import java.util.*;
+class Solution {
+    public String[] solution(String[] files) {
+        String[] answer = {};
+        
+        ArrayList<String> number = new ArrayList<>();
+        
+        for(int i = 0; i < files.length; i++){
+            StringBuilder sb = new StringBuilder();
+            for(int j = 0; j < files[i].length(); j++){
+                if(Character.isDigit(files[i].charAt(j))){
+                    sb.append(files[i].charAt(j));
+                }
+                else if(j > 0 && Character.isDigit(files[i].charAt(j-1))){
+                    break;
+                }
+            }
+            number.add(sb.toString());
+        }
+        
+        String[] head = new String[files.length];
+        
+        for(int i = 0; i < files.length; i++){
+            String[] temp = files[i].split(number.get(i).toString());
+            head[i] = temp[0];
+        }
+        
+        ArrayList<String> comp = new ArrayList<>();
+        
+        for(int i = 0; i < files.length; i++){
+            comp.add(files[i]);
+        }
+        
+        Arrays.sort(files, new Comparator<String>(){
+           @Override
+            public int compare(String s1, String s2){
+               int i1 = comp.indexOf(s1);
+                int i2 = comp.indexOf(s2);
+                String head1 = head[i1].toUpperCase();
+                String head2 = head[i2].toUpperCase();
+                int num1 = Integer.parseInt(number.get(i1));
+                int num2 = Integer.parseInt(number.get(i2));
+                
+                if(head1.equals(head2)){
+                    if(num1 == num2){
+                        return i1 - i2;
+                    }
+                    return num1 - num2;
+                }
+                
+                return head1.compareTo(head2);
+            }
+        });
+        
+        
+        return files;
+    }
+}
