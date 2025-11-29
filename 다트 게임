@@ -1,0 +1,83 @@
+import java.util.*;
+class Solution {
+    public int solution(String dartResult) {
+        int answer = 0;
+        char[] charr = dartResult.toCharArray();
+        LinkedHashMap<Integer, Character> map = new LinkedHashMap<>();
+        ArrayList<Integer> point = new ArrayList<>();
+        ArrayList<Character> bonus = new ArrayList<>();
+        
+        for(int i = 0; i < charr.length; i++){
+            if(Character.isDigit(charr[i])){
+                    if(Character.isDigit(charr[i+1])){
+                        point.add(10);
+                        bonus.add(charr[i+2]);
+                        i++;
+                    }
+                    else{
+                        point.add(Integer.valueOf(charr[i]-'0'));
+                        bonus.add(charr[i+1]);
+                    }
+                }
+        }
+        int score[] = new int[3];
+        
+        int n = 0;
+        for(int i : point){
+            System.out.println(i);
+            int s = 0;
+           if(bonus.get(n) == 'S'){
+               s = i;
+           } 
+            else if(bonus.get(n) == 'D'){
+                s = i * i;
+            }
+            else{
+                s = i * i * i;
+            }
+            score[n] = s;
+            n++;
+        }
+        for(int i = 0; i < charr.length; i++){
+            int first = 3;
+            int second = 6;
+            if(point.get(0) == 10){
+                first ++;
+            }
+            if(point.get(1) == 10){
+                second ++;
+            }
+            if(charr[i] == '*' || charr[i] == '#'){
+                int j;
+                if(charr[i] == '*'){
+                    j = 2;
+                }
+                else{
+                    j = -1;
+                }
+                if(i < first){
+                    score[0] *= j;
+                }
+                else if(i < second){
+                    if(charr[i] == '*'){
+                        score[0] *= j;
+                    }
+                    score[1] *= j;
+                }
+                else{
+                    if(charr[i] == '*'){
+                        score[1] *= j;
+                    }
+                    score[2] *= j;
+                }
+            }
+        }
+        
+        for(int i : score){
+            System.out.println(i);
+            answer += i;
+            System.out.println(answer);
+        }
+        return answer;
+    }
+}
