@@ -1,0 +1,79 @@
+class Solution {
+    public int solution(int m, int n, String[] board) {
+        int answer = 0;
+        
+        char[][] blocks = new char[m][n];
+        char[][] result = new char[m][n];
+        
+        for(int i = 0; i < m; i++){
+            String str = board[i];
+            char[] tmp = str.toCharArray();
+            for(int j = 0; j < n; j++){
+                blocks[i][j] = tmp[j];
+                result[i][j] = tmp[j];
+            }
+        }
+        
+        while(true){
+            boolean all = false;
+            for(int i = 0; i < m-1; i++){
+                for(int j = 0; j < n-1; j++){
+                    char f = blocks[i][j];
+                    char s = blocks[i][j+1];
+                    char t = blocks[i+1][j];
+                    char fo = blocks[i+1][j+1];
+
+                    if(f != '0' && f == s && f == t && f == fo){
+                        result[i][j] = '0';
+                        result[i][j+1] = '0';
+                        result[i+1][j] = '0';
+                        result[i+1][j+1] = '0';
+                        all = true;
+                    }
+
+                }
+            }
+            
+            while(true){
+                for(int i = 0; i < m; i++){
+                    for(int j = 0; j < n; j++){
+                        if(i < m-1 && result[i+1][j] == '0'){
+                            result[i+1][j] = result[i][j];
+                            result[i][j] = '0';
+                            blocks[i][j] = '0';
+                        }
+                        else{
+                            blocks[i][j] = result[i][j];
+                        }
+                    }
+                }
+                
+                boolean down = false;
+                for(int i = 0; i < n; i++){
+                    for(int j = 0; j < m; j++){
+                        if(j < m-1 && result[j+1][i] == '0' && result[j][i] != '0'){
+                            down = true;
+                            break;
+                        }
+                    }
+                }
+                if(!down){
+                    break;
+                }
+            }
+            if(!all){
+                break;
+            }
+        }
+        
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(result[i][j] == '0'){
+                    answer ++;
+                }
+            }
+        }
+        
+        return answer;
+    }
+}
