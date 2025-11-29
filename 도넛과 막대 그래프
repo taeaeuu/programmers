@@ -1,0 +1,47 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[][] edges) {
+        int max = 0;
+        
+        for(int[] e : edges){
+            max = Math.max(max, Math.max(e[0], e[1]));
+        }
+        
+        int[] in = new int[max+1];
+        int[] out = new int[max+1];
+        
+        for(int[] e : edges){
+            int from = e[0];
+            int to = e[1];
+            
+            in[to]++;
+            out[from]++;
+        }
+        
+        int donut = 0;
+        int stick = 0;
+        int eight = 0;
+        int newNode = 0;
+        
+        for(int i = 0; i < max+1; i++){
+            if(in[i] == 0 && out[i] >= 2){
+                newNode = i;
+                break;
+            }
+        }
+        
+        for(int i = 0; i < max+1; i++){
+            if(in[i] >= 2 && out[i] == 2) eight++;
+            else if(out[i] == 0 && in[i] > 0) stick++;
+        }
+        
+        
+        donut = out[newNode] - (stick + eight);
+        
+        
+        
+        int[] answer = {newNode, donut, stick, eight};
+        return answer;
+    }
+}
