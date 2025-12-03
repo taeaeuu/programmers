@@ -1,0 +1,59 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String str1, String str2) {
+        int answer = 0;
+        str1 = str1.toLowerCase();
+        str2 = str2.toLowerCase();
+        ArrayList<String> sta1 = new ArrayList<>();
+        ArrayList<String> sta2 = new ArrayList<>();
+        
+        for(int i = 0; i < str1.length() - 1; i++){
+            if(str1.charAt(i) <= 122 && str1.charAt(i) >= 97 && 
+              str1.charAt(i+1) <= 122 && str1.charAt(i+1) >= 97){
+                StringBuilder sb = new StringBuilder();
+                sb.append(str1.charAt(i));
+                sb.append(str1.charAt(i+1));
+                sta1.add(sb.toString());
+                System.out.println(sb.toString());
+            }
+        }
+        
+        System.out.println();
+        
+        for(int i = 0; i < str2.length() - 1; i++){
+            if(str2.charAt(i) <= 122 && str2.charAt(i) >= 97 && 
+              str2.charAt(i+1) <= 122 && str2.charAt(i+1) >= 97){
+                StringBuilder sb = new StringBuilder();
+                sb.append(str2.charAt(i));
+                sb.append(str2.charAt(i+1));
+                sta2.add(sb.toString());
+            }
+        }
+        
+        int same = 0;
+        int a = sta1.size();
+        int b = sta2.size();
+        
+        for(int i = 0; i < sta1.size(); i++){
+            for(int j = 0; j < sta2.size(); j++){
+                if(sta1.get(i).equals(sta2.get(j))){
+                    sta2.remove(j);
+                    same++;
+                    break;
+                }
+            }
+        }
+        
+        int allSize = a + b - same;
+        
+        if(allSize == 0){
+            return 65536;
+        }
+        
+        answer = 65536 * same / allSize;
+        
+        
+        return answer;
+    }
+}
