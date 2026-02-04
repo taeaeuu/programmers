@@ -11,8 +11,7 @@ class Solution {
 
     void hanoi(int n, int from, int to, int aux){
         
-        if(n == 1){
-            answer.add(new int[]{from, to});
+        if(n == 0){
             return ;
         }
         
